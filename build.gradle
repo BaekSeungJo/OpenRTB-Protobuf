@@ -5,6 +5,8 @@ plugins {
 group 'org.example'
 version '1.0-SNAPSHOT'
 
+sourceSets.all { set -> set.allSource.srcDirs.each { it.mkdirs() }}
+
 repositories {
     mavenCentral()
 }
