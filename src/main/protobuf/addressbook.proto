@@ -3,11 +3,11 @@ syntax = "proto2";
 package tutorial;
 
 option java_multiple_files = true;
-option java_package = "com.example.protobuf.protos";
+option java_package = "com.example.protobuf.addressbook";
 option java_outer_classname = "AddressBookProtos";
 
 message Person {
-  optional string name = 1;
+  required string name = 1;
   optional int32 id = 2;
   optional string email = 3;
 
