@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.protobuf.protos.PersonTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-05-10T07:20:23" hostname="DESKTOP-GF9PCFQ" time="0.182">
+  <properties/>
+  <testcase name="Person_required_필드_설정_검증_테스트()" classname="com.example.protobuf.protos.PersonTest" time="0.161"/>
+  <testcase name="Person_생성_테스트()" classname="com.example.protobuf.protos.PersonTest" time="0.021"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
