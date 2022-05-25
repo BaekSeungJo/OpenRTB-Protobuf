@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Open RTB Test</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <script type="text/css">
+        .native_img_preview {
+            width: 1200px;
+            height: 600px;
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        .native_img_preview .img {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0 auto;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .native_img_preview .title {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+            padding: 100px 30px 0;
+            font-size: 44px;
+            background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
+            letter-spacing: -1px;
+        }
+
+        .native_img_preview .title .txt {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            width: calc(100% - 204px);
+            margin-right: 30px;
+            float: left;
+            line-height: 74px;
+        }
+
+        .native_img_preview .title button {
+            width: 174px;
+            height: 74px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            font-size: 38px;
+            letter-spacing: -2px;
+            float: right;
+        }
+
+        /*미리보기탭 스타일*/
+        .panel-danger .panel-heading {
+            height: 45px;
+        }
+
+        .panel-danger .panel-heading ul {
+            padding: 0;
+        }
+
+        .panel-danger .panel-heading ul li {
+            list-style: none;
+            float: left;
+            padding: 0 15px;
+            height: 35px;
+            line-height: 35px;
+            opacity: 0.6;
+            cursor: pointer;
+        }
+
+        .panel-danger .panel-heading ul li.active {
+            background-color: #fff;
+            opacity: 1;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .panel-danger .panel-heading ul li:hover {
+            opacity: 1;
+        }
+    </script>
+</head>
+<body>
+<div class="panel panel-info">
+    <div class="panel-heading">Google Protobuf RTB TEST 설정</div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="form-group form-group-sm">
+                <label class="col-sm-2 control-label">현재 도메인 </label>
+                <div class="col-sm-8 cl-sm-offset-2">
+                    <input type="text" class="form-control" id="currentDomain"
+                           placeholder="https://test.mediacategory.com">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-2 control-label">RTB 타입</label>
+                <div class="col-sm-8 cl-sm-offset-2">
+                    <label class="radio-inline"><input type="radio" name="itlTpCode" value="04" checked/> 구글</label>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-2 control-label">AU_ID</label>
+                <div class="col-sm-8 cl-sm-offset-2">
+                    <input type="text" class="form-control" id="auId"
+                           placeholder="ae9fcdfa9e78e278-6bbae02916ff4185c14-7f4f">
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-2 control-label">프레임 사이즈</label>
+                <div class="col-sm-8 cl-sm-offset-2">
+                    <select class="form-control" id="tagid">
+                        <option value="03L13" selected>다음카카오_영화250_상단</option>
+                        <option value="DAN-1jenqvzz5ougk">다음카카오_메인지면_최하단_300*150</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-2 control-label">TEST(한도, 라이브 유무 등)</label>
+                <div class="col-sm-8 cl-sm-offset-2">
+                    <label class="radio-inline"><input type="radio" name="test" value="0" checked/> OFF</label>
+                    <label class="radio-inline"><input type="radio" name="test" value="1"/> ON</label>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-sm-2 control-label">타겟팅 지정</label>
+                <div class="col-sm-8 cl-sm-offset-2">
+                    <select class="form-control" id="target">
+                        <option disabled selected value="">선택</option>
+                        <option>TC</option>
+                        <option>WC</option>
+                        <option>TV</option>
+                        <option>TR</option>
+                        <option>MC</option>
+                        <option>SP</option>
+                        <option>CR</option>
+                        <option>CW</option>
+                        <option>RC</option>
+                        <option>WV</option>
+                        <option>WR</option>
+                        <option>SR</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <div class="col-sm-offset-2 col-sm-8 cl-sm-offset-2">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="loadUrl();">Test</button>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <div class="col-sm-offset-2 col-sm-8 cl-sm-offset-2">
+                    <button id="nurlBtn" type="button" class="btn btn-danger btn-sm" onclick="loadNurl();">낙찰</button>
+                    <button id="viewBtn" type="button" class="btn btn-info btn-sm" onclick="loadView();">노출</button>
+                    <button id="drcBtn" type="button" class="btn btn-default btn-sm" onclick="loadDrc();">클릭</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br/>
+<div class="panel panel-danger">
+    <div class="panel-heading">
+        <ul>
+            <li class="active" id="bodyTitle">응답 전문</li>
+            <li id="imgTitle">미리보기</li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <!-- 텍스트 전문 화면 -->
+        <div id="bodyView">
+            <pre id="body_frame" style="width:100%; height:500px; overflow:auto;"></pre>
+        </div>
+
+        <!-- 이미지 미리보기 화면 -->
+        <div id="imgView" style="display: none">
+            <iframe id="banner_img_preview" style="width:100%; height:500px; overflow:auto;"></iframe>
+            <div class="native_img_preview" style="display: none">
+                <div class="img"></div>
+                <div class="title">
+                    <p class="txt"></p>
+                    <button class="button">바로가기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="//cdn.rawgit.com/dcodeIO/protobuf.js/6.11.2/dist/protobuf.min.js"></script>
+<script language="javascript">
+    const google_size = ["120_600", "160_600", "200_200", "250_250", "300_250", "320_100", "320_50", "728_90", "970_250", "auto"];
+    const google_tagid = ["g120_600adm.obsnews.co.kr", "g160_600www.dogdrip.net", "g200_200hiddengentleman.com", "g250_250mwww.instiz.net", "g300_250mm.kmib.co.kr", "g320_100mwww.instiz.net", "g320_50mm.dcinside.com", "g728_90namu.wiki", "g970_250bbs.ruliweb.com", "g320_699mcom.app.rescuecut"];
+
+    let response;
+
+    $(document).ready(function () {
+        const currentURL = window.location.protocol + "//" + window.location.host;
+
+        if (currentURL.indexOf("file://")) {
+            $("#currentDomain").val(currentURL);
+        } else {
+            $("#currentDomain").val("https://openrtb.mediacategory.com");
+        }
+
+        $(document).on('click', '.panel-heading ul li', function () {
+            $(this).addClass('active').siblings().removeClass('active');
+            const bodyType = $(this).attr('id');
+
+            // 응답 전문
+            if (bodyType === 'bodyTitle') {
+                // 응답 전문 화면 전환
+                $("#imgView").css({
+                    'display': 'none'
+                });
+
+                $("#bodyView").css({
+                    'display': 'block'
+                });
+            }
+            // 미리보기
+            else {
+                // 미리보기 화면 전환
+                $("#imgView").css({
+                    'display': 'block'
+                });
+
+                $("#bodyView").css({
+                    'display': 'none'
+                });
+
+                if (response !== 'undefined') {
+                    $("#banner_img_preview").css({
+                        'width': '100%',
+                        'height': '500px',
+                        'overflow': 'auto',
+                        'display': 'block'
+                    });
+
+                    $(".native_img_preview").css({
+                        'display': 'none'
+                    });
+
+                    $("#banner_img_preview").attr("srcDoc", $.parseJSON(response).seatbid[0].bid[0].adm);
+                }
+            }
+        });
+    });
+
+    function loadUrl() {
+        const activeTab = $('.panel-heading ul li.active').prop('id');
+        if (activeTab == "imgTitle") {
+            $('.panel-heading ul li:first').trigger('click');
+        }
+
+        const isSecure = (window.location.protocol === "https:");
+        const currentDomain = $("#currentDomain").val();
+        const itlTpCode = $("input:radio[name='itlTpCode']:checked").val();
+        const tagid = $("#tagid").val();
+        const test = $("input:radio[name='test']:checked").val();
+        const target = $("#target").val();
+        const deviceWidth = window.screen.width;
+        const deviceHeight = window.screen.height;
+        const devicePxratio = window.devicePixelRatio || 1;
+        const auId = $("#auId").val();
+
+        let uuid;
+
+        if (auId === "") {
+            $("#auId").focus();
+            alert("AU_ID 값을 입력해주세요.");
+            return;
+        }
+
+        // let str_url = currentDomain + "/rtb/testApi?itlTpCode=" + itlTpCode + "&tagid=" + tagid + "&uuid=" + uuid + "&isSecure=" + isSecure + "&test=" + test + "&deviceWidth=" + deviceWidth + "&deviceHeight=" + deviceHeight + "&devicePxratio=" + devicePxratio;
+        // if (target !== null) {
+        //     str_url = str_url + "&target=" + target;
+        // }
+        //
+        // $.get(str_url, function (data) {
+        //     // html or json type data
+        //     response = data;
+        //
+        //     $("#body_frame").text(response);
+        // });
+
+        $.ajax({
+            url: 'http://localhost:8080/bidRequest',
+            contentType: 'application/json',
+            method: 'POST',
+            data: JSON.stringify({
+                isSecure: isSecure,
+                tagid: tagid,
+                test: test,
+                target: target,
+            })
+        })
+            .done(function (response) {
+                console.log(response);
+            });
+
+        // $.post("bidRequest",
+        //     {
+        //         isSecure: isSecure,
+        //         tagid: tagid,
+        //         test: test,
+        //         target: target,
+        //     },
+        //     function (data, status) {
+        //         console.log(status);
+        //         console.log(data);
+        //     },
+        //     "json"
+        // );
+    };
+
+    function loadView() {
+        if (response == null) {
+            alert("응답전문이 없습니다.");
+            return;
+        } else {
+            const seatbid = $.parseJSON(response).seatbid[0] == null ? true : false;
+            const rtbSpec = $("input[name=rtbSpec]:checked").val();
+            const adm = $.parseJSON(response).seatbid[0].bid[0].adm;
+
+            if (!seatbid) {
+                // Banner
+                const html2 = $(adm);
+                html2.filter(function (element, index) {
+                    if (index.nodeName == "IMG") {
+                        const banner_viewLink = $(index).filter("img").attr("src");
+                        if (banner_viewLink.indexOf("rtbViewApi") > 0) {
+                            console.log("link : " + banner_viewLink);
+                            window.open(banner_viewLink);
+                            return;
+                        }
+                    }
+                });
+                return;
+            } else {
+                alert("nobid");
+            }
+        }
+    };
+
+    function loadDrc() {
+        if (response == null) {
+            alert("응답전문이 없습니다.")
+            return;
+        } else {
+            const seatbid = $.parseJSON(response).seatbid[0] == null ? true : false;
+            const adm = $.parseJSON(response).seatbid[0].bid[0].adm;
+
+            if (!seatbid) {
+                // Banner
+                const html2 = $(adm);
+                html2.filter(function (element, index) {
+                    const divObj = $(index).filter("div");
+                    if (divObj.attr("id") == "noHiddenMobon") {
+                        const banner_drcLink = divObj.children().eq(0).val();
+                        console.log("link : " + banner_drcLink);
+                        window.open(banner_drcLink);
+                        return;
+                    }
+                });
+                return;
+            } else {
+                alert("nobid");
+            }
+        }
+    };
+
+    function loadNurl() {
+        if (response == null) {
+            alert("응답전문이 없습니다.");
+            return;
+        } else {
+            const seatbid = $.parseJSON(response).seatbid[0] == null ? true : false;
+
+            if (!seatbid) {
+                const adm = $.parseJSON(response).seatbid[0].bid[0].nurl;
+                const temp1 = adm;
+                console.log(temp1);
+                const temp2 = temp1.split("?");
+
+                const nurl_0 = temp2[0];
+                let nurl_1_temp = temp2[1];
+                if (nurl_1_temp.startsWith("&")) {
+                    nurl_1_temp = nurl_1_temp.substring(1);
+                }
+
+                const params = nurl_1_temp.split("&");
+                const paramMap = new Map();
+
+                let price = "";
+                for (let i = 0; i < params.length; i++) {
+                    let data = params[i].split("=");
+                    let key = data[0];
+                    let val = data[1];
+                    paramMap.set(key, val);
+                    if (key === "bidprice") {
+                        price = val;
+                    }
+                }
+                paramMap.delete("price");
+                paramMap.set("price", price);
+
+                let nurl_1 = "";
+                for (let [key, value] of paramMap) {
+                    let trim_key = $.trim(key);
+                    let trim_value = $.trim(value);
+                    nurl_1 += (trim_key + "=" + trim_value + "&");
+                }
+                nurl_1 = nurl_1.substring(-2);
+                if (nurl_1.endsWith("&")) {
+                    nurl_1 = nurl_1.substring(nurl_1.length - 1, -1);
+                }
+
+                const nurl = nurl_0 + "?" + nurl_1;
+                const link = nurl;
+                console.log("link : " + link);
+                window.open(link);
+
+            } else {
+                alert("nobid");
+            }
+        }
+    };
+</script>
+</html>

@@ -1,0 +1,4 @@
+server:
+  compression:
+    enabled: true
+    mime-types: application/json, application/x-protobuf

@@ -1,23 +1,76 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.18'
+    }
+}
+
 plugins {
+    id 'org.springframework.boot' version '2.6.7'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'com.google.protobuf' version '0.8.18'
+    id 'idea'
 }
 
 group 'org.example'
 version '1.0-SNAPSHOT'
+sourceCompatibility = '11'
 
-sourceSets.all { set -> set.allSource.srcDirs.each { it.mkdirs() }}
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+sourceSets {
+    main {
+        proto {
+            // In addition to the default 'src/main/proto'
+            srcDir 'src/main/protobuf'
+            srcDir 'src/main/protocolbuffers'
+            // In addition to the default '**/*.proto' (use with caution).
+            // Using an extension other than 'proto' is NOT recommended,
+            // because when proto files are published along with class files, we can
+            // only tell the type of a file from its extension.
+            include '**/*.protodevel'
+        }
+    }
+    test {
+        proto {
+            // In addition to the default 'src/test/proto'
+            srcDir 'src/test/protocolbuffers'
+        }
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
+protobuf {
+    // Configure the protoc executable
+    protoc {
+        // Download from repositories
+        artifact = 'com.google.protobuf:protoc:3.20.1'
+    }
+}
+
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Protocol Buffers runtime ( Protocol Buffer Compiler와 버전음 맞춤 )
     implementation 'com.google.protobuf:protobuf-java:3.20.1'
+    implementation 'com.google.protobuf:protobuf-java-util:3.20.1'
+
+    implementation 'org.apache.httpcomponents:httpclient'
+    compileOnly 'org.projectlombok:lombok'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.4.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
-test {
+tasks.named('test') {
     useJUnitPlatform()
 }
