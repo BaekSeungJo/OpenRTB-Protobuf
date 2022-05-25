@@ -3,7 +3,7 @@ syntax = "proto2";
 package tutorial;
 
 option java_multiple_files = true;
-option java_package = "com.example.protobuf.addressbook";
+option java_package = "com.example.protobuf.model.addressbook";
 option java_outer_classname = "AddressBookProtos";
 
 message Person {
